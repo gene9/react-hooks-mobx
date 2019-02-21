@@ -7,11 +7,12 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.15",
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
     "@fortawesome/react-fontawesome": "^0.1.4",
+    "axios": "^0.18.0",
     "formik": "^1.5.1",
     "mobx": "^5.9.0",
     "mobx-react-lite": "^1.0.1",
-    "react": "^16.8.2",
-    "react-dom": "^16.8.2",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
     "yup": "^0.26.10"
   },
   "scripts": {
@@ -28,7 +29,7 @@
     "@babel/core": "^7.3.3",
     "@babel/preset-env": "^7.3.1",
     "@types/node": "^11.9.4",
-    "@types/react": "^16.8.3",
+    "@types/react": "^16.8.4",
     "@types/react-dom": "^16.8.2",
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.0",
@@ -39,15 +40,15 @@
     "mobx-react-devtools": "^6.0.3",
     "node-sass": "^4.11.0",
     "postcss-loader": "^3.0.0",
-    "react-hot-loader": "^4.6.5",
+    "react-hot-loader": "^4.7.1",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "ts-loader": "^5.3.3",
     "tslint": "^5.12.1",
-    "tslint-microsoft-contrib": "^6.0.0",
+    "tslint-microsoft-contrib": "^6.1.0-beta",
     "typescript": "^3.3.3",
     "webpack": "^4.29.5",
     "webpack-cli": "^3.2.3",
-    "webpack-dev-server": "^3.1.14"
+    "webpack-dev-server": "^3.2.0"
   }
 }

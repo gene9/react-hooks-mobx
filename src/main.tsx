@@ -5,13 +5,16 @@ import * as ReactDOM from "react-dom";
 import { hot, setConfig } from "react-hot-loader";
 import { Formik, FormikActions, FormikProps, Form, Field, FieldProps } from "formik";
 import { Observer, useObservable } from "mobx-react-lite";
-import * as mobx from 'mobx';
+import * as mobx from "mobx";
 import * as Yup from "yup";
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
-mobx.configure({ enforceActions: 'observed' });
+mobx.configure({ enforceActions: "observed" });
+
+axios.defaults.baseURL = `http://deelay.me/1000/http://localhost`;
 
 library.add(faCircleNotch);
 
@@ -32,7 +35,7 @@ class SampleModel {
 
 class SampleService {
   async save(model: SampleModel): Promise<SampleModel> {
-    await this.sleep(3000);
+    await axios.get("/").catch(() => {});
     return model;
   }
 
@@ -68,31 +71,38 @@ const Top = ({ service }) => {
             initialValues={{
               siteName: store.model.siteName
             }}
-            onSubmit={async ({ siteName }, actions) => {
+            onSubmit={({ siteName }, actions) => {
               store.setInProgress(true);
 
               const newModel = new SampleModel(siteName);
-              service.save(newModel).then(data => {
-                store.updateModel(data);
-                store.setInProgress(false);
-                actions.setSubmitting(false);
-              }).catch((err) => {
-                store.setInProgress(false);
-                actions.setSubmitting(false);
-              });
+              service
+                .save(newModel)
+                .then(data => {
+                  store.updateModel(data);
+                  store.setInProgress(false);
+                  actions.setSubmitting(false);
+                })
+                .catch(err => {
+                  store.setInProgress(false);
+                  actions.setSubmitting(false);
+                });
             }}
             render={({ isSubmitting, errors, touched }) => {
               return (
-                <Form>
-                  {store.inProgress && <FontAwesomeIcon icon="circle-notch" spin />}
-                  <Field name="siteName" autoFocus={true} placeholder="Site name" maxLength={50} />
+                <Observer>
+                  {() => (
+                    <Form>
+                      {store.inProgress && <FontAwesomeIcon icon="circle-notch" spin />}
+                      <Field name="siteName" autoFocus={true} placeholder="Site name" maxLength={50} />
 
-                  {errors.siteName && touched.siteName && <div>{errors.siteName}</div>}
+                      {errors.siteName && touched.siteName && <div>{errors.siteName}</div>}
 
-                  <button type="submit" disabled={isSubmitting}>
-                    Submit
-                  </button>
-                </Form>
+                      <button type="submit" disabled={isSubmitting}>
+                        Submit
+                      </button>
+                    </Form>
+                  )}
+                </Observer>
               );
             }}
           />
